@@ -1,0 +1,24 @@
+package in.tajdar.plans_api.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import in.tajdar.plans_api.model.Plan;
+import in.tajdar.plans_api.service.PlanService;
+
+public class PlanController {
+	@Autowired
+	private PlanService planService;
+
+	public List<String> getAllPlans() {
+		List<Plan> allPlans = planService.getAllPlans();
+		return allPlans;
+	}
+	public ListplanCategories() {
+		
+	}
+	
+}
