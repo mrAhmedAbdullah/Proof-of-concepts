@@ -1,0 +1,82 @@
+package in.tajdar.plans_api.controller;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import in.tajdar.plans_api.model.Plan;
+import in.tajdar.plans_api.service.PlanService;
+
+public class PlanController {
+	@Autowired
+	private PlanService planService;
+
+	@GetMapping("/all-plans")
+	public ResponseEntity<List<Plan>> getAllPlans() {
+		List<Plan> allPlans = planService.getAllPlans();
+		return new ResponseEntity<List<Plan>>(allPlans, HttpStatus.OK);
+	}
+
+	@GetMapping
+	public ResponseEntity<Map<Integer, String>> planCategories() {
+		Map<Integer, String> planCategories = planService.getPlanCategories();
+		return new ResponseEntity<Map<Integer, String>>(planCategories, HttpStatus.OK);
+	}
+
+	@PostMapping("/plan")
+	public ResponseEntity<String> savePlan(@RequestBody Plan planObject) {
+		boolean savePlan = planService.savePlan(planObject);
+		if (savePlan) {
+			return new ResponseEntity<String>("PLAN SAVED SUCCESSFULLY", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<String>("FAILED TO SAVE PLAN", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@DeleteMapping("plans/{id}")
+	public ResponseEntity<String> dltPlan(@RequestParam Integer id) {
+		boolean deletePlan = planService.deletePlan(id);
+		if (deletePlan) {
+			return new ResponseEntity<String>("PLAN DELETED SUCCESSFULLY", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("FAILED TO DELETE PLAN", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@GetMapping("/plans/{id}")
+	public ResponseEntity<Plan> getPlanById(@RequestParam Integer id){
+		Plan planById = planService.getPlanById(id);
+		return new ResponseEntity<Plan>(planById, HttpStatus.OK);
+	}
+	
+	@PutMapping("/plans/{id}/{status}")
+	public ResponseEntity<String> changeStatusById(@RequestParam Integer id, @RequestParam String status){
+		boolean planStatusChange = planService.planStatusChange(id, status);
+		if(planStatusChange) {
+			return new ResponseEntity<String>("PLAN STATUS CHANGED SUCCESSFULLY", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("FAILED TO CHANGE PLAN STATUS", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/plan")
+	public ResponseEntity<String> updatePlan(@RequestBody Plan plan){
+		boolean updatePlan = planService.updatePlan(plan);
+		if(updatePlan) {
+			return new ResponseEntity<String>("PLAN UPDATED SUCCUSSFULLY",HttpStatus.CREATED);
+		}else
+		return new ResponseEntity<String>("FAILED TO UPDATE PLAN",HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+}
