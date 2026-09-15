@@ -1,0 +1,7 @@
+Hi {FULLNAME},<br/><br/>
+Your registeration has been successfully done.<br/>
+You can activate your account by clickin on below link, use the temporary password mentioned below.<br/>
+Temporary password: {TEMP-PWD}<br/>
+link: <a href="{URL}"> click here to activate you account</a><br/><br/>
+Thanks,<br/>
+Admin Team.<br/>
